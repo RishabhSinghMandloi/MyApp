@@ -1,0 +1,89 @@
+
+MariaDB [(none)]> use myproject;
+Database changed
+MariaDB [myproject]> create table user(
+    -> user_id int(30) primary key auto_increment not null,
+    -> user_name varchar(60) unique not null,
+    -> name varchar(60) not null,
+    -> email_id varchar(80) unique not null,
+    -> password varchar(50) not null,
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ')' at line 7
+MariaDB [myproject]> create table user(
+    -> user_id int(30) primary key auto_increment not null,
+    -> user_name varchar(60) unique not null,
+    -> name varchar(60) not null,
+    -> email_id varchar(80) unique not null,
+    -> password varchar(50) not null);
+Query OK, 0 rows affected (0.27 sec)
+
+MariaDB [myproject]> create table posts(
+    -> post_id int(30) primary key auto_increment not null,
+    -> post_title varchar(100) not null,
+    -> post_body varchar(100) not null,
+    -> user_id int(30) not null);
+Query OK, 0 rows affected (0.19 sec)
+
+MariaDB [myproject]> create table comments(
+    -> comment_id int(30) primary key auto_increment not null,
+    -> comment_body varchar(100) not null,
+    -> user_id int(30) not null,
+    -> post_id int(30) not null);
+Query OK, 0 rows affected (0.18 sec)
+
+MariaDB [myproject]> alert table posts add foreign key(user_id) references user(user_id);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'alert table posts add foreign key(user_id) references user(user_id)' at line 1
+MariaDB [myproject]> alter table posts add foreign key(user_id) references user(user_id);
+Query OK, 0 rows affected (0.58 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [myproject]> alter table comments add foreign key(user_id) references user(user_id);
+Query OK, 0 rows affected (0.53 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [myproject]> alter table comments add foreign key(post_id) references posts(post_id);
+Query OK, 0 rows affected (0.56 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [myproject]> desc user;
++-----------+-------------+------+-----+---------+----------------+
+| Field     | Type        | Null | Key | Default | Extra          |
++-----------+-------------+------+-----+---------+----------------+
+| user_id   | int(30)     | NO   | PRI | NULL    | auto_increment |
+| user_name | varchar(60) | NO   | UNI | NULL    |                |
+| name      | varchar(60) | NO   |     | NULL    |                |
+| email_id  | varchar(80) | NO   | UNI | NULL    |                |
+| password  | varchar(50) | NO   |     | NULL    |                |
++-----------+-------------+------+-----+---------+----------------+
+5 rows in set (0.02 sec)
+
+MariaDB [myproject]> desc posts;
++------------+--------------+------+-----+---------+----------------+
+| Field      | Type         | Null | Key | Default | Extra          |
++------------+--------------+------+-----+---------+----------------+
+| post_id    | int(30)      | NO   | PRI | NULL    | auto_increment |
+| post_title | varchar(100) | NO   |     | NULL    |                |
+| post_body  | varchar(100) | NO   |     | NULL    |                |
+| user_id    | int(30)      | NO   | MUL | NULL    |                |
++------------+--------------+------+-----+---------+----------------+
+4 rows in set (0.00 sec)
+
+MariaDB [myproject]> desc comments;
++--------------+--------------+------+-----+---------+----------------+
+| Field        | Type         | Null | Key | Default | Extra          |
++--------------+--------------+------+-----+---------+----------------+
+| comment_id   | int(30)      | NO   | PRI | NULL    | auto_increment |
+| comment_body | varchar(100) | NO   |     | NULL    |                |
+| user_id      | int(30)      | NO   | MUL | NULL    |                |
+| post_id      | int(30)      | NO   | MUL | NULL    |                |
++--------------+--------------+------+-----+---------+----------------+
+4 rows in set (0.01 sec)
+
+MariaDB [myproject]>
+
+
+
+
+
+
+
